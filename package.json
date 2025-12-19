@@ -1,6 +1,6 @@
 {
   "name": "@frycz/atm",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Set up private GitHub repos and push commits quickly",
   "keywords": [
     "github",
@@ -11,6 +11,10 @@
     "automation"
   ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frycz/atm.git"
+  },
   "bin": {
     "atm": "./bin/atm.js"
   },
