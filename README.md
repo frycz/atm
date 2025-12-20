@@ -77,6 +77,28 @@ Pushing to GitHub...
 Done! Repository created at /path/to/my-project
 ```
 
+#### Using `atm init` in an existing repository
+
+If you run `atm init` inside an existing git repository, it will detect this and offer to create only the `atm.json` configuration file. This is useful when you want to start using `atm` with a project that already has a GitHub remote set up.
+
+```bash
+$ cd existing-project
+$ atm init
+
+Git repository detected in: /path/to/existing-project
+
+Remote URL: git@github.com:yourname/existing-project.git
+Host: github
+Visibility: private
+
+This will only create an atm.json file. No new repository will be created.
+
+Create atm.json in this directory? [y/N]: y
+
+atm.json created successfully.
+You can now use 'atm s' to save and push changes.
+```
+
 ### `atm s`
 
 Quick save - stages all changes, commits with message "save", and pushes to origin.
