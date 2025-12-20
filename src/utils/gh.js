@@ -2,7 +2,7 @@ const { execSync } = require('child_process');
 
 function exec(cmd, options = {}) {
   try {
-    const result = execSync(cmd, { encoding: 'utf8', stdio: 'pipe', ...options });
+    const result = execSync(cmd, { encoding: 'utf8', stdio: 'pipe', shell: true, ...options });
     return result ? result.trim() : null;
   } catch (err) {
     if (options.ignoreError) return null;

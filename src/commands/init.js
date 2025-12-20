@@ -146,7 +146,7 @@ async function init() {
     }
 
     // Get directory
-    const defaultDir = `./${repoName}`;
+    const defaultDir = path.join('.', repoName);
     const dirInput = await prompt(rl, `Directory [${defaultDir}]: `);
     const dir = dirInput || defaultDir;
 
