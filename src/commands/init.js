@@ -7,6 +7,7 @@ const {
   isGhAuthenticated,
   getGhUsername,
   createRepo,
+  getRepoVisibility,
 } = require("../utils/gh.js");
 const {
   gitInit,
@@ -14,6 +15,9 @@ const {
   gitSetUpstream,
   gitAdd,
   gitCommit,
+  isGitRepo,
+  getRemoteUrl,
+  parseRemoteUrl,
 } = require("../utils/git.js");
 
 function prompt(rl, question) {
@@ -24,11 +28,77 @@ function prompt(rl, question) {
   });
 }
 
+async function handleExistingRepo() {
+  const cwd = process.cwd();
+  console.log(`\nGit repository detected in: ${cwd}`);
+
+  // Get remote info
+  const remoteUrl = getRemoteUrl();
+  const repoInfo = parseRemoteUrl(remoteUrl);
+
+  if (remoteUrl) {
+    console.log(`\nRemote URL: ${remoteUrl}`);
+
+    if (repoInfo) {
+      // Check if non-GitHub remote
+      if (repoInfo.hostType !== "github") {
+        console.error(`\nError: atm only works with GitHub repositories.`);
+        console.error(`Detected host: ${repoInfo.hostType}`);
+        process.exit(1);
+      }
+
+      console.log(`Host: ${repoInfo.hostType}`);
+
+      // Check visibility for GitHub repos
+      if (isGhInstalled() && isGhAuthenticated()) {
+        const visibility = getRepoVisibility(repoInfo.owner, repoInfo.repo);
+        if (visibility) {
+          console.log(`Visibility: ${visibility}`);
+        }
+      }
+    }
+  } else {
+    console.log("\nNo remote configured.");
+  }
+
+  console.log("\nThis will only create an atm.json file. No new repository will be created.");
+
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  try {
+    const answer = await prompt(rl, "\nCreate atm.json in this directory? [y/N]: ");
+    rl.close();
+
+    if (answer.toLowerCase() === "y" || answer.toLowerCase() === "yes") {
+      writeConfig({
+        defaultCommitMessage: "save",
+      });
+      console.log("\natm.json created successfully.");
+      console.log("You can now use 'atm s' to save and push changes.");
+    } else {
+      console.log("\nAborted. No changes made.");
+    }
+  } catch (err) {
+    rl.close();
+    console.error("Error:", err.message);
+    process.exit(1);
+  }
+}
+
 async function init() {
   // Check if already initialized
   if (configExists()) {
     console.error("atm.json already exists. Already initialized.");
     process.exit(1);
+  }
+
+  // Check if we're in an existing git repo
+  if (isGitRepo()) {
+    await handleExistingRepo();
+    return;
   }
 
   // Check gh CLI

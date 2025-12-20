@@ -40,9 +40,21 @@ function createRepo(user, repo) {
   exec(`gh repo create ${user}/${repo} --private`, { stdio: 'inherit' });
 }
 
+function getRepoVisibility(owner, repo) {
+  try {
+    const result = exec(`gh repo view ${owner}/${repo} --json isPrivate -q .isPrivate`);
+    if (result === 'true') return 'private';
+    if (result === 'false') return 'public';
+    return null;
+  } catch {
+    return null;
+  }
+}
+
 module.exports = {
   isGhInstalled,
   isGhAuthenticated,
   getGhUsername,
   createRepo,
+  getRepoVisibility,
 };
