@@ -24,30 +24,27 @@ function run(args) {
     return;
   }
 
-  // Save shorthand
+  // Save command: "atm s" or "atm s [message]"
   if (cmd === "s") {
-    save("save");
-    return;
-  }
-
-  // Commit message must be wrapped in quotes (contains spaces or starts with quote)
-  const isQuotedMessage =
-    cmd.includes(" ") || cmd.startsWith('"') || cmd.startsWith("'");
-  if (isQuotedMessage) {
-    if (!cmd.trim()) {
-      console.error("Commit message cannot be empty.");
-      process.exit(1);
+    const messageArgs = args.slice(1);
+    if (messageArgs.length > 0) {
+      const message = messageArgs.join(" ");
+      if (!message.trim()) {
+        console.error("Commit message cannot be empty.");
+        process.exit(1);
+      }
+      save(message);
+    } else {
+      save(); // Use default message from config
     }
-    save(cmd);
     return;
   }
 
   // Unknown command
   console.error(`Unknown command: ${cmd}`);
-  console.error('')
-  console.error(`To use it as commit message, wrap it ith '' or ""`);
-  console.error(`eg.: atm "${cmd}"`);
-  console.error('')
+  console.error("");
+  console.error(`To save with a custom commit message, use: atm s ${cmd}`);
+  console.error("");
   console.error(`Run 'atm --help' for usage.`);
   process.exit(1);
 }

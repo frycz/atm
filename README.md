@@ -48,7 +48,7 @@ cd [repo-directory]
 atm s
 
 # Or with a custom commit message
-atm "add new feature"
+atm s add new feature
 ```
 
 ## Commands
@@ -101,19 +101,19 @@ You can now use 'atm s' to save and push changes.
 
 ### `atm s`
 
-Quick save - stages all changes, commits with message "save", and pushes to origin.
+Quick save - stages all changes, commits with the default message from config, and pushes to origin.
 
 ```bash
 atm s
 ```
 
-### `atm <message>`
+### `atm s <message>`
 
 Stages all changes, commits with your custom message, and pushes to origin.
 
 ```bash
-atm "fix login bug"
-atm "add user authentication"
+atm s fix login bug
+atm s add user authentication
 ```
 
 ### `atm -h` / `atm --help`
