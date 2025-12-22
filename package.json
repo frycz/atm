@@ -1,6 +1,6 @@
 {
   "name": "@frycz/atm",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Set up private GitHub repos and push commits quickly",
   "keywords": [
     "github",

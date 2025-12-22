@@ -22,12 +22,14 @@ function save(message) {
     gitCommit(commitMessage);
     gitPush();
   } catch (err) {
-    if (err.stderr && err.stderr.includes("nothing to commit")) {
-      console.log("Nothing to commit.");
+    if (err.stderr) {
+      console.log(err.stderr);
+    } else if (err.stdout) {
+      console.log(err.stdout);
     } else {
       console.error(err.message);
-      process.exit(1);
     }
+    process.exit(1);
   }
 }
 
