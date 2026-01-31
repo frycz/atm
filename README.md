@@ -40,7 +40,7 @@ npx @frycz/atm [command]
 
 ```bash
 # Create a new private GitHub repo
-atm init
+atm init repo-name
 
 # go to the repo directory (if not already there)
 cd [repo-directory]
@@ -55,9 +55,15 @@ atm s add new feature
 
 ## Commands
 
+### `atm init repo-name`
+
+1. Create a private repository on GitHub
+2. Initialize a local git repository with a README
+3. Push the initial commit
+
 ### `atm init`
 
-Initialize a new private GitHub repository. This command will:
+Initialize a new private GitHub repository in interactive mode. This command will:
 
 1. Prompt for your GitHub username (auto-detected from `gh`)
 2. Prompt for a repository name

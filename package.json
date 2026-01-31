@@ -1,6 +1,6 @@
 {
   "name": "@frycz/atm",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Set up private GitHub repos and push commits quickly",
   "keywords": [
     "github",
@@ -23,7 +23,8 @@
     "src"
   ],
   "scripts": {
-    "test": "node --test"
+    "test": "node --test",
+    "publish": "npm publish --access public"
   },
   "engines": {
     "node": ">=18"
