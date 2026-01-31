@@ -1,5 +1,7 @@
 # atm
 
+[Read blog post](https://frycz.github.io/projects/atm)
+
 In the era of AI tools, drafting new ideas is easier than ever. `atm` helps you set up private GitHub repos for your ideas and save iterations quickly.
 
 With a single `atm init` command, the tool prepares a private repository. Develop your project by adding changes and quickly pushing them with `atm s`. That's it.
