@@ -88,7 +88,36 @@ async function handleExistingRepo() {
   }
 }
 
-async function init() {
+function expandTilde(filePath) {
+  if (filePath.startsWith("~/")) {
+    return path.join(process.env.HOME || process.env.USERPROFILE, filePath.slice(2));
+  }
+  if (filePath === "~") {
+    return process.env.HOME || process.env.USERPROFILE;
+  }
+  return filePath;
+}
+
+async function init(targetPath) {
+  let dir = null;
+  let defaultRepoName = null;
+
+  // If targetPath is provided, set up the directory first
+  if (targetPath) {
+    const expandedPath = expandTilde(targetPath);
+    const fullPath = path.resolve(expandedPath);
+
+    // Create directory if it doesn't exist
+    if (!fs.existsSync(fullPath)) {
+      fs.mkdirSync(fullPath, { recursive: true });
+    }
+
+    // Change to the target directory
+    process.chdir(fullPath);
+    dir = fullPath;
+    defaultRepoName = path.basename(fullPath);
+  }
+
   // Check if already initialized
   if (configExists()) {
     console.error("atm.json already exists. Already initialized.");
@@ -139,16 +168,24 @@ async function init() {
     }
 
     // Get repo name
-    const repoName = await prompt(rl, "Repository name: ");
-    if (!repoName) {
-      console.error("Repository name is required.");
-      process.exit(1);
+    let repoName;
+    if (defaultRepoName) {
+      const repoInput = await prompt(rl, `Repository name [${defaultRepoName}]: `);
+      repoName = repoInput || defaultRepoName;
+    } else {
+      repoName = await prompt(rl, "Repository name: ");
+      if (!repoName) {
+        console.error("Repository name is required.");
+        process.exit(1);
+      }
     }
 
-    // Get directory
-    const defaultDir = path.join('.', repoName);
-    const dirInput = await prompt(rl, `Directory [${defaultDir}]: `);
-    const dir = dirInput || defaultDir;
+    // Get directory (only if not already specified via targetPath)
+    if (!dir) {
+      const defaultDir = path.join('.', repoName);
+      const dirInput = await prompt(rl, `Directory [${defaultDir}]: `);
+      dir = dirInput || defaultDir;
+    }
 
     rl.close();
 

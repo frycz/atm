@@ -92,6 +92,25 @@ describe("run function", () => {
     run(["init"]);
 
     assert.strictEqual(mockInit.mock.calls.length, 1);
+    assert.strictEqual(mockInit.mock.calls[0].arguments[0], undefined);
+  });
+
+  it("runs init command with path argument", () => {
+    const { run } = require("../src/index.js");
+
+    run(["init", "my-repo"]);
+
+    assert.strictEqual(mockInit.mock.calls.length, 1);
+    assert.strictEqual(mockInit.mock.calls[0].arguments[0], "my-repo");
+  });
+
+  it("runs init command with nested path argument", () => {
+    const { run } = require("../src/index.js");
+
+    run(["init", "some-dir/my-project"]);
+
+    assert.strictEqual(mockInit.mock.calls.length, 1);
+    assert.strictEqual(mockInit.mock.calls[0].arguments[0], "some-dir/my-project");
   });
 
   it('calls save with no message for "atm s"', () => {

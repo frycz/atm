@@ -20,7 +20,8 @@ function run(args) {
 
   // Init command
   if (cmd === "init") {
-    init();
+    const targetPath = args[1]; // Optional path argument
+    init(targetPath);
     return;
   }
 
