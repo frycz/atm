@@ -204,6 +204,19 @@ A: It's "all to main".
 Q: Can I tell my friend about `atm`?<br>
 A: Yes, go ahead!
 
+## Development
+
+```bash
+# Run local version
+node bin/atm.js <command>
+# Run tests
+node --test
+# Login to npm
+npm login
+# Publish to npm
+npm publish --access public
+```
+
 ## License
 
 MIT
