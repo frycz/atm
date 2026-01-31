@@ -55,13 +55,7 @@ atm s add new feature
 
 ## Commands
 
-### `atm init repo-name`
-
-1. Create a private repository on GitHub
-2. Initialize a local git repository with a README
-3. Push the initial commit
-
-### `atm init`
+### `atm init [directory]`
 
 Initialize a new private GitHub repository in interactive mode. This command will:
 
