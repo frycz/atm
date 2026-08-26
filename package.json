@@ -24,7 +24,7 @@
   ],
   "scripts": {
     "test": "node --test",
-    "publish": "npm publish --access public"
+    "release": "npm publish --access public"
   },
   "engines": {
     "node": ">=18"
