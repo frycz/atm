@@ -1,11 +1,18 @@
-const { configExists, readConfig } = require("../utils/config.js");
+const { configExists, findConfigDir, readConfig } = require("../utils/config.js");
 const { gitAdd, gitCommit, gitPush } = require("../utils/git.js");
 
 function save(message) {
-  // Check if initialized
+  // Check if initialized (atm.json in this directory or any parent)
   if (!configExists()) {
-    console.error('atm.json not found. Run "atm init" first.');
+    console.error('atm.json not found in this directory or any parent. Run "atm init" first.');
     process.exit(1);
+  }
+
+  // Run git from the project root so "atm s" saves everything, not just
+  // the subdirectory it was invoked from
+  const root = findConfigDir();
+  if (root) {
+    process.chdir(root);
   }
 
   // Use default commit message from config if not provided

@@ -1,7 +1,7 @@
 const readline = require("readline");
 const fs = require("fs");
 const path = require("path");
-const { configExists, writeConfig } = require("../utils/config.js");
+const { configExistsHere, writeConfig } = require("../utils/config.js");
 const {
   isGhInstalled,
   isGhAuthenticated,
@@ -118,8 +118,9 @@ async function init(targetPath) {
     defaultRepoName = path.basename(fullPath);
   }
 
-  // Check if already initialized
-  if (configExists()) {
+  // Check if already initialized (this directory only, so a project can be
+  // initialized inside another one)
+  if (configExistsHere()) {
     console.error("atm.json already exists. Already initialized.");
     process.exit(1);
   }

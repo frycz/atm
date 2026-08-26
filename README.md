@@ -109,6 +109,8 @@ Quick save - stages all changes, commits with the default message from config, a
 atm s
 ```
 
+Like `git`, `atm` looks for `atm.json` in the current directory and then walks up through the parent directories, so you can run `atm s` from anywhere inside your project. Changes are always staged from the project root (the directory holding `atm.json`).
+
 ### `atm s <message>`
 
 Stages all changes, commits with your custom message, and pushes to origin.
@@ -184,7 +186,7 @@ gh auth login
 
 ### atm.json not found
 
-You need to initialize the repository first:
+No `atm.json` was found in the current directory or any of its parents. You need to initialize the repository first:
 
 ```bash
 atm init
